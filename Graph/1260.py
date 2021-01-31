@@ -1,28 +1,49 @@
-N,M,V=map(int,input().split())
-matrix=[[0]*(N+1) for i in range(N+1)]
-for i in range(M):
-    a,b = map(int,input().split())
-    matrix[a][b]=matrix[b][a]=1
-visit_list=[0]*(N+1)
+import sys
+N, M, V = map(int, sys.stdin.readline().strip().split())
+edge = [[] for _ in range(N+1)]
 
-def dfs(V):
-    visit_list[V]=1 #방문한 점 1로 표시
-    print(V, end=' ')
-    for i in range(1,N+1):
-        if(visit_list[i]==0 and matrix[V][i]==1):
-            dfs(i)
+for __ in range(M):
+    n1, n2 = map(int, sys.stdin.readline().strip().split())
+    edge[n1].append(n2)
+    edge[n2].append(n1)
 
-def bfs(V):
-    queue=[V] #들려야 할 정점 저장
-    visit_list[V]=0 #방문한 점 0으로 표시
+
+for e in edge:
+    e.sort(reverse=True)
+
+print(edge)
+
+def dfs():
+    d_visit = []
+    stack = [V]
+    d_check = [0 for _ in range(N + 1)] #[1 0 0 0]
+    while stack:
+        v1=stack.pop()
+        if not d_check[v1]: #d_check[v1]이 0이면
+            d_check[v1]=1
+            d_visit.append(v1)
+            stack+=edge[v1]
+        return d_visit
+
+    '''
+    stack 과 edge배열이 같이 있다.
+    visit과 check가 있다.
+    visit은 방문한 순서를 담기 위함.
+    check는 방문했는지 여부를 표시하기 위함
+    stack이 빌 때까지>스택에서 뺀 걸로 check 업데이트>정답에 업데이트>해당점의 edge를 stack에 업데이트
+    reverse를 한 것은 pop 때문인데, pop(0)을 사용하는 것은 좋지 않다.    
+    '''
+
+def bfs():
+    b_visit = []
+    queue = [V]
+    b_check = [0 for _ in range(N+1)]
+    b_check[V] = 1
     while queue:
-        V=queue.pop(0)
-        print(V, end=' ')
-        for i in range(1, N+1):
-            if(visit_list[i]==1 and matrix[V][i]==1):
-                queue.append(i)
-                visit_list[i]=0
-
-dfs(V)
-print()
-bfs(V)
+        v2 = queue.pop()
+        b_visit.append(v2)
+        for i in reversed(edge[v2]):
+            if not b_check[i]:
+                b_check[i] = 1
+                queue = [i] + queue
+    return b_visit
