@@ -10,3 +10,5 @@ for _ in range(T):
         graph[0][i]+=max(graph[1][i-1],graph[1][i-2])
         graph[1][i]+=max(graph[0][i-1],graph[0][i-2])
     print(max(graph[0][n-1],graph[1][n-1]))
+
+    #누적으로 갱신시킨다는 것이 포인트.
