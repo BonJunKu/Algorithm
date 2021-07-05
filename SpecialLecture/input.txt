@@ -1,0 +1,6 @@
+DUP
+MUL
+NUM 2
+ADD
+END
+QUIT
