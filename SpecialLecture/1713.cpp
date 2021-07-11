@@ -20,7 +20,7 @@ int main(){
 	//freopen("1713.txt","r",stdin);
 	cin>>n>>k;
 	int student;
-	for (int i=1; i<=k; ++i){
+	for (int i=0; i<k; i++){
 		cin>>student;
 		if (rec[student]!=0){
 			rec[student]++;
@@ -29,12 +29,12 @@ int main(){
 			if (used<n){
 				rec[student]++;
 				used++;
-				when[student]=i;
+				when[student]=i+1;
 			}
 			else{
 				int max=9999;
 				int exchangable;
-				for (int j=1; j<=100;++j){
+				for (int j=0; j<=100;j++){
 					if (rec[j]==0){
 						continue;
 					}
@@ -50,7 +50,7 @@ int main(){
 					}
 				}
 				rec[student]++;
-					when[student]=i;
+					when[student]=i+1;
 					rec[exchangable]=0;
 					when[exchangable]=0;
 			}
@@ -58,8 +58,8 @@ int main(){
 		
 
 	}
-	for (int i=1; i<=100; ++i){
-		if (when[i]!=0) cout<< i <<' ';
+	for (int i=1; i<=100; i++){
+		if (when[i]!=0) cout<< i << ' ';
 	}
 	
 	
